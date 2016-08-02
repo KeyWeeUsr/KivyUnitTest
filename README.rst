@@ -2,10 +2,10 @@ KivyUnitTest
 ============
 
 .. image:: https://img.shields.io/pypi/pyversions/kivyunittest.svg
-   :target: https://github.com/|kut|
+   :target: https://pypi.python.org/pypi/kivyunittest
 
 .. image:: https://img.shields.io/pypi/v/kivyunittest.svg
-   :target: https://github.com/|kut|
+   :target: https://pypi.python.org/pypi/kivyunittest
 
 *Test more, cry less!*
 
