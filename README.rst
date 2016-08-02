@@ -1,6 +1,12 @@
 KivyUnitTest
 ============
 
+.. image:: https://img.shields.io/pypi/pyversions/kivyunittest.svg
+   :target: https://github.com/|kut|
+
+.. image:: https://img.shields.io/pypi/v/kivyunittest.svg
+   :target: https://github.com/|kut|
+
 *Test more, cry less!*
 
 This script is meant to launch a folder of your tests which will behave as one

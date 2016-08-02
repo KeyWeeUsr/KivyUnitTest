@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # KivyUnitTest
-# Version: 0.1.0
+# Version: 0.1.1
 # Copyright (C) 2016, KeyWeeUsr(Peter Badida) <keyweeusr@gmail.com>
 # License: The MIT License (MIT)
 #
@@ -81,7 +81,10 @@ class Test(object):
         for output in self.outputs:
             _temp = []
             for out in output:
-                _temp.append(out.split(os.linesep))
+                try:
+                    _temp.append(out.split(os.linesep))
+                except TypeError:
+                    _temp.append(out.split(os.linesep.encode('utf-8')))
             cleaned.append(_temp)
         self.outputs = cleaned[:]
 
@@ -90,16 +93,25 @@ class Test(object):
         for i, output in enumerate(self.outputs):
             for j, lines in enumerate(output):
                 for line in lines:
-                    if line.startswith('Traceback'):
-                        module = self.modules[i]
-                        errors.append([i, j, module])
+                    try:
+                        if line.startswith('Traceback'):
+                            module = self.modules[i]
+                            errors.append([i, j, module])
+                    except TypeError:
+                        # in py3 it's ' Traceback' (with whitespace) O_o
+                        if line.startswith(b' Traceback'):
+                            module = self.modules[i]
+                            errors.append([i, j, module])
 
         for error in errors:
             print('='*70)
             print('|', error[2], ' '*(61-len(error[2])), 'LOG |')
             print('='*70)
             for line in self.outputs[error[0]][error[1]]:
-                print(line)
+                if sys.version_info[0] == 3:
+                    print(line.decode('utf-8'))
+                else:
+                    print(line)
 
         delta = round(time() - self.startTime, 3)
         len_mod = len(self.modules)
