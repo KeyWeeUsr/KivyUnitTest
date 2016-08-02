@@ -3,12 +3,12 @@
 from distutils.core import setup
 
 setup(name='kivyunittest',
-      version='0.1.0',
+      version='0.1.1',
       description='Unittesting for Kivy framework',
       author='Peter Badida',
       author_email='keyweeusr@gmail.com',
       url='https://github.com/KeyWeeUsr/KivyUnitTest',
-      download_url='https://github.com/KeyWeeUsr/KivyUnitTest/tarball/0.1.0',
+      download_url='https://github.com/KeyWeeUsr/KivyUnitTest/tarball/0.1.1',
       packages=['kivyunittest'],
       classifiers=[
           'Intended Audience :: Developers',
