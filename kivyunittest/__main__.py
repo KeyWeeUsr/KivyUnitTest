@@ -31,9 +31,9 @@ from __future__ import print_function
 
 import os
 import sys
-import subprocess
 import os.path as op
 from time import time
+import subprocess as subp
 from os.path import isfile
 from os import listdir as ls
 
@@ -73,7 +73,10 @@ class Test(object):
                      'suite = loader.loadTestsFromName("%s");'
                      'runner = unittest.TextTestRunner(verbosity=2);'
                      'result = runner.run(suite);' % (repr(self.path), mod))]
-            call = [subprocess.check_output(args, stderr=subprocess.STDOUT)]
+            try:
+                call = [subp.check_output(args, stderr=subp.STDOUT)]
+            except subp.CalledProcessError as exc:
+                call = [exc.output]
             self.outputs.append(call)
 
         # remove separators
