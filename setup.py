@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='kivyunittest',
-      version='0.1.1',
+      version='0.1.3',
       description='Unittesting for Kivy framework',
       author='Peter Badida',
       author_email='keyweeusr@gmail.com',

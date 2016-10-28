@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # KivyUnitTest
-# Version: 0.1.1
+# Version: 0.1.3
 # Copyright (C) 2016, KeyWeeUsr(Peter Badida) <keyweeusr@gmail.com>
 # License: The MIT License (MIT)
 #
@@ -129,6 +129,7 @@ class Test(object):
             else:
                 msg = '%s FAILED TESTS!' % len_err
             print(msg)
+            exit(1)
         else:
             print('SUCCESS!')
 
