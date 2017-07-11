@@ -51,6 +51,7 @@ Example:
 
 .. code::
 
+    import kivy
     import unittest
 
     import os

@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='kivyunittest',
-      version='0.1.3',
+      version='0.1.4',
       description='Unittesting for Kivy framework',
       author='Peter Badida',
       author_email='keyweeusr@gmail.com',
@@ -18,6 +18,8 @@ setup(name='kivyunittest',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
           'Topic :: Software Development :: Bug Tracking',
           'Topic :: Software Development :: Testing',
       ],
