@@ -21,11 +21,14 @@ Run from console:
 
 .. code::
 
-    python -m kivyunittest --folder "FOLDER"
+    python -m kivyunittest --folder "FOLDER" --pythonpath "FOLDER"
 
 Without ``--folder`` flag the file assumes it's placed into a folder full of
 tests presumably as ``__init__.py``. It makes a list of files, filters
 everything not starting with `test_` and ending with `.py` and runs each test.
+
+Flag `--pythonpath` appends a folder to the `sys.path` automatically,
+therefore it's not necessary to include it in each test manually.
 
 Errors
 ------
@@ -63,7 +66,8 @@ Example:
 
 First we need to set up importing of the application set ``main_path``
 to be the folder of `main.py` e.g. when you have tests in
-`<app dir>/tests/test_example.py`.
+`<app dir>/tests/test_example.py`. Or choose the folder with the
+`--pythonpath` flag.
 
 .. code::
 

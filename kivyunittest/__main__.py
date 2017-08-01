@@ -42,37 +42,57 @@ class Test(object):
     def __init__(self, **kwargs):
         super(Test, self).__init__(**kwargs)
         self._path = op.dirname(op.abspath(__file__))
+        self.path = []
         try:
-            if sys.argv[1] == '--folder':
-                self.path = sys.argv[2]
-                if self.path.startswith('\'') or self.path.startswith('"'):
-                    self.path = self.path[1:]
-                if self.path.endswith('\'') or self.path.endswith('"'):
-                    self.path = self.path[:-1]
-                self.path = self.path.strip('.py')
+            self.path.append(self._path)
+            if '--folder' in sys.argv:
+                pos = sys.argv.index('--folder') + 1
+                path = sys.argv[pos]
+                if path.startswith('\'') or path.startswith('"'):
+                    path = path[1:]
+                if path.endswith('\'') or path.endswith('"'):
+                    path = path[:-1]
+                path = path.strip('.py')
+                self.path.append(path)
 
                 self.modules = []
-                m = [f for f in ls(self.path) if isfile(op.join(self.path, f))]
+                m = [f for f in ls(path) if isfile(op.join(path, f))]
                 for mod in m:
                     if (mod.startswith('test_') and mod.endswith('.py')):
                         self.modules.append(mod.strip('.py'))
             else:
-                self.path = self._path
                 self.modules = ['test_text', ]
+            if '--pythonpath' in sys.argv:
+                pos = sys.argv.index('--pythonpath') + 1
+                path = sys.argv[pos]
+
+                if path.startswith('\'') or path.startswith('"'):
+                    path = path[1:]
+                if path.endswith('\'') or path.endswith('"'):
+                    path = path[:-1]
+                self.path.append(path)
         except IndexError:
-            self.path = self._path
+            self.path = [self._path]
             self.modules = ['test_text', ]
         self.outputs = []
 
     def run(self):
         self.startTime = time()
+
         for mod in self.modules:
-            args = ['python', '-c',
-                    ('import sys; import os.path as op; import unittest;'
-                     'sys.path.append(%s); loader = unittest.TestLoader();'
-                     'suite = loader.loadTestsFromName("%s");'
-                     'runner = unittest.TextTestRunner(verbosity=2);'
-                     'result = runner.run(suite);' % (repr(self.path), mod))]
+            args = [
+                'python', '-c',
+                ('import sys; import os.path as op;'
+                 'import unittest;'
+                 'sys.path.extend(%s);'
+                 'loader = unittest.TestLoader();'
+                 'suite = loader.loadTestsFromName("%s");'
+                 'runner = unittest.TextTestRunner(verbosity=2);'
+                 'result = runner.run(suite);'
+                 ' ' % (repr(self.path), mod)
+                )
+            ]
+
             try:
                 call = [subp.check_output(args, stderr=subp.STDOUT)]
             except subp.CalledProcessError as exc:

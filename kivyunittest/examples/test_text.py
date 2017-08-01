@@ -8,9 +8,8 @@ import os.path as op
 from functools import partial
 from kivy.clock import Clock
 
-main_path = op.dirname(op.dirname(op.abspath(__file__)))
-sys.path.append(main_path)
-
+# it's not a relative import!
+# test with --pythonpath "<path to main.py>"
 from main import My
 
 
