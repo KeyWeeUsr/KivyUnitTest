@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # KivyUnitTest
-# Version: 0.1.3
-# Copyright (C) 2016, KeyWeeUsr(Peter Badida) <keyweeusr@gmail.com>
+# Version: 0.1.5
+# Copyright (C) 2016 - 2017, KeyWeeUsr(Peter Badida) <keyweeusr@gmail.com>
 # License: The MIT License (MIT)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
