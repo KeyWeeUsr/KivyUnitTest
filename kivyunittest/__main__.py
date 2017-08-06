@@ -130,11 +130,14 @@ class Test(object):
         for mod in self.modules:
             args = [
                 'python', '-c', (
+                    'import os;'
                     'import sys;'
                     'import unittest;'
                     'from kivy.config import Config;'
                     'sys.path += %(path)s;'
                     'Config.set("kivy", "log_level", "%(level)s");'
+                    'monkey = "TRAVIS_OS_NAME";'
+                    'os.environ[monkey] = os.environ.get(monkey) or "kut";'
                     'loader = unittest.TestLoader();'
                     'suite = loader.loadTestsFromName("%(module)s");'
                     'runner = unittest.TextTestRunner(verbosity=0);'
@@ -169,18 +172,18 @@ class Test(object):
             if not outputs:
                 break
 
-        # get errors' log
+        # get errors log
         errors = []
         for i, output in enumerate(cleaned):
             for j, lines in enumerate(output):
                 for line in lines:
                     try:
-                        if line.startswith('Traceback'):
+                        if 'Traceback' in line:
                             module = self.modules[i]
                             errors.append([i, j, module])
                     except TypeError:
                         # in py3 it's ' Traceback' (with whitespace) O_o
-                        if line.startswith(b' Traceback'):
+                        if b'Traceback' in line:
                             module = self.modules[i]
                             errors.append([i, j, module])
 
