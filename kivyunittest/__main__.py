@@ -141,7 +141,8 @@ class Test(object):
                     'loader = unittest.TestLoader();'
                     'suite = loader.loadTestsFromName("%(module)s");'
                     'runner = unittest.TextTestRunner(verbosity=0);'
-                    'result = runner.run(suite);' % {
+                    'result = runner.run(suite);'
+                    'exit(len(result.failures) or len(result.errors));' % {
                         'level': self.log_level[parse.verbose],
                         'path': repr(self.path),
                         'module': mod
@@ -149,49 +150,56 @@ class Test(object):
                 )
             ]
 
-            # if something happens, always preserve the output
+            # preserve the output if there's a non-zero return
+            error = False
             try:
                 call = [subp.check_output(args, stderr=subp.STDOUT)]
             except subp.CalledProcessError as exc:
-                call = [exc.output]
-            outputs.append(call)
+                if exc.returncode:
+                    error = True
+                    call = [exc.output]
+            outputs.append([call, error, mod])
         self.trim_output(outputs)
 
     def trim_output(self, outputs):
         # remove separators
         cleaned = []
         while True:
-            output = outputs.pop()
+            if not outputs:
+                break
+            output, errorcode, module = outputs.pop()
             _temp = []
             for out in output:
                 try:
                     _temp.append(out.split(os.linesep))
                 except TypeError:
                     _temp.append(out.split(os.linesep.encode('utf-8')))
-            cleaned.append(_temp)
-            if not outputs:
-                break
+            cleaned.append([_temp, errorcode, module])
 
         # get errors log
         errors = []
         for i, output in enumerate(cleaned):
+            output, errorcode, module = output
+            if not errorcode:
+                continue
             for j, lines in enumerate(output):
                 for line in lines:
+                    # append only if the call failed
+                    # forbid "print('Traceback')"
+                    found = False
                     try:
                         if 'Traceback' in line:
-                            module = self.modules[i]
-                            errors.append([i, j, module])
+                            errors.append([i, j, module, errorcode])
                     except TypeError:
-                        # in py3 it's ' Traceback' (with whitespace) O_o
-                        if b'Traceback' in line:
-                            module = self.modules[i]
-                            errors.append([i, j, module])
+                        if b'Traceback' in line and errorcode:
+                            errors.append([i, j, module, errorcode])
 
         for error in errors:
-            print('='*70)
-            print('|', error[2], ' '*(61-len(error[2])), 'LOG |')
-            print('='*70)
-            for line in cleaned[error[0]][error[1]]:
+            print('=' * 70)
+            print('|', error[2], ' ' * (61 - len(error[2])), 'LOG |')
+            print('=' * 70)
+            i, j, module, errorcode = error
+            for line in cleaned[i][0][j]:
                 if sys.version_info[0] == 3:
                     print(line.decode('utf-8'))
                 else:
@@ -204,7 +212,7 @@ class Test(object):
         else:
             print('Ran %s tests in %ss' % (len_mod, delta))
         if errors:
-            len_err = len(errors)
+            len_err = len([e[-1] for e in errors if e[-1]])
             if len_err == 1:
                 msg = '%s FAILED TEST!' % len_err
             else:
