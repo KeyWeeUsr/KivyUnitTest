@@ -182,17 +182,22 @@ class Test(object):
             output, errorcode, module = output
             if not errorcode:
                 continue
+            found = False
             for j, lines in enumerate(output):
                 for line in lines:
+                    if found:
+                        continue
                     # append only if the call failed
                     # forbid "print('Traceback')"
-                    found = False
                     try:
                         if 'Traceback' in line:
                             errors.append([i, j, module, errorcode])
+                            found = True
                     except TypeError:
                         if b'Traceback' in line and errorcode:
                             errors.append([i, j, module, errorcode])
+                            found = True
+
 
         for error in errors:
             print('=' * 70)
