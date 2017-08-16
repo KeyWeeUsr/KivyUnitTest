@@ -431,7 +431,7 @@ using this:
 
 which gets tedious and annoying the more you use it when you navigate the
 tree from the application's root widget itself through complex layouts.
-This is where [Telenium](https://github.com/tito/telenium) might save you
+This is where `Telenium <https://github.com/tito/telenium>`_ might save you
 a lot of minutes instead of typing the same thing over and over.
 
 License
