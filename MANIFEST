@@ -5,4 +5,5 @@ setup.py
 kivyunittest\__init__.py
 kivyunittest\__main__.py
 kivyunittest\main.py
+kivyunittest\examples\test_draw.py
 kivyunittest\examples\test_text.py

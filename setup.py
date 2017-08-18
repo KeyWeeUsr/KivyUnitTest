@@ -1,8 +1,18 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
+from os.path import dirname, abspath, join
 
-version = '0.1.5'
+import kivyunittest as kut
+
+# it should be the "kivyunittest" folder near setup.py
+expected = join(
+    dirname(abspath(__file__)), 'kivyunittest'
+)
+if dirname(kut.__file__) == expected:
+    from kivyunittest.__main__ import __version__ as version
+else:
+    exit("Failed to import KivyUnitTest version for setup.py")
 
 setup(
     name='kivyunittest',
