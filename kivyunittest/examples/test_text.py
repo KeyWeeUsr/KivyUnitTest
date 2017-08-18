@@ -1,4 +1,3 @@
-import kivy
 import unittest
 
 import os

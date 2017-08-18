@@ -57,7 +57,6 @@ Example:
 
 .. code::
 
-    import kivy
     import unittest
 
     import os
@@ -421,7 +420,7 @@ annoying to write manually stuff.
 There's also possibility to change time the steps were recorded in in ``.kvi``
 file (that long number), which will speed things up.
 
-There's also a very interesting Python package made by Mathieu Virbel that
+Also, there's a very interesting Python package made by Mathieu Virbel that
 allows you to go down the widget tree rabit hole in a more sane way than
 using this:
 
