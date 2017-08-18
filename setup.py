@@ -2,6 +2,7 @@
 
 from distutils.core import setup
 from os.path import dirname, abspath, join
+from os import listdir
 
 import kivyunittest as kut
 
@@ -26,6 +27,13 @@ setup(
         '{}'.format(version)
     ),
     packages=['kivyunittest'],
+    package_data={
+        "kivyunittest": [
+            join('examples', f) for f in listdir(
+                join(expected, 'examples')
+            )
+        ]
+    },
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',

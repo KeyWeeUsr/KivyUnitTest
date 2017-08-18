@@ -35,7 +35,7 @@ from time import time
 from os import listdir as ls
 from os.path import isfile, join, dirname, abspath
 
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 
 
 class Parser(ArgumentParser):
