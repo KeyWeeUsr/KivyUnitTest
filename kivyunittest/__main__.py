@@ -34,8 +34,7 @@ import subprocess as subp
 from time import time
 from os import listdir as ls
 from os.path import isfile, join, dirname, abspath
-
-__version__ = '0.1.7'
+from kivyunittest import __version__
 
 
 class Parser(ArgumentParser):
